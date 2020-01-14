@@ -1,9 +1,10 @@
 // implement your API here
 const express = require("express");
-
+const cors = require("cors");
 const db = require("./data/db.js");
 
 const server = express();
+server.use(cors());
 
 //Parse JSON from body
 server.use(express.json());
@@ -82,7 +83,7 @@ server.delete("/api/users/:id", (req, res) => {
     });
 });
 
-// PUT Request updates the user with specified ID, using data from the request body. Reuturns the modified document.
+// PUT Request updates the user with specified ID, using data from the request body. Returns the modified document.
 server.put("/api/users/:id", (req, res) => {
   const id = req.params.id;
   const userData = req.body;
@@ -105,7 +106,6 @@ server.put("/api/users/:id", (req, res) => {
         db.findById(id).then(user => {
           res.status(200).json(user);
         });
-        // res.status(200).json({ user: `user ${id} was updated` });
       })
       .catch(err => {
         console.log("Error on PUT /users/:id", err);
